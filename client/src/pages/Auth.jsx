@@ -4,17 +4,31 @@ import { motion } from "motion/react";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
+import axios from "axios";
 
 export default function Auth() {
+  let serverUrl = "http://localhost:5000";
+  const handleGoogleAuth = async () => {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      let User = response.user;
+      let email = User.email;
+      let name = User.displayName;
 
-    const handleGoogleAuth = async()=>{
-        try {
-            const response = await signInWithPopup(auth, provider)
-            console.log(response)
-        } catch (error) {
-            console.log(error)
-        }
+      const dbUser = await axios.post(
+        serverUrl + "/api/auth/google",
+        {
+          email,
+          name,
+        },
+        { withCredentials: true },
+      );
+
+      console.log(dbUser);
+    } catch (error) {
+      console.log(error);
     }
+  };
   return (
     <div className="w-full min-h-screen bg-[#f3f3f3] flex items-center justify-center px-6 py-20 ">
       <motion.div
@@ -43,10 +57,11 @@ export default function Auth() {
         </p>
 
         <motion.button
-        onClick={handleGoogleAuth}
-        whileHover={{opacity: 0.9, scale:1.03}}
-        whileTap={{opacity: 1, scale:0.8}}
-        className="w-full flex items-center justify-center text-white bg-black gap-3 py-3 rounded-full shadow-md">
+          onClick={handleGoogleAuth}
+          whileHover={{ opacity: 0.9, scale: 1.03 }}
+          whileTap={{ opacity: 1, scale: 0.8 }}
+          className="w-full flex items-center justify-center text-white bg-black gap-3 py-3 rounded-full shadow-md"
+        >
           <FcGoogle size={20}></FcGoogle>
           Continue with Google
         </motion.button>

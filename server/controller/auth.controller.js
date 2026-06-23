@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 export const authUser = async (req, res) => {
@@ -14,7 +14,7 @@ export const authUser = async (req, res) => {
       });
     }
 
-    let token = await jwt.sign(dbUser._id, process.env.JWT_SECRET, {
+    let token = await jwt.sign({ id: dbUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -25,15 +25,23 @@ export const authUser = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json(dbUser)
+    return res.status(200).json(dbUser);
   } catch (error) {
     res.status(500).json({
-        message: `Google Authentication Error ${error}`
-    })
+      message: `Google Authentication Error ${error}`,
+    });
   }
 };
 
-
 export const logOutUser = async (req, res) => {
-    
-}
+  try {
+    await res.clearCookie("token");
+    res.status(200).json({
+      message: "User logout Successfully..",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `Google Authentication Error ${error}`,
+    });
+  }
+};
