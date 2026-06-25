@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import { useEffect } from "react";
@@ -8,8 +8,9 @@ import { setUserData } from "./redux/userSlice";
 
 function App() {
   let dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const serverUrl = "http://localhost:5000";
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
   useEffect(() => {
     try {
       let getCurrentUser = async () => {
@@ -21,6 +22,9 @@ function App() {
         );
 
         dispatch(setUserData(currentUser.data));
+        if(currentUser){
+          navigate("/")
+        }
       };
 
       getCurrentUser();
