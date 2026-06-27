@@ -21,6 +21,7 @@ import MM from "../assets/MM.png";
 import pdf from "../assets/pdf.png";
 import resume from "../assets/resume.png";
 import tech from "../assets/tech.png";
+import Footer from "../components/Footer.jsx";
 
 function Home() {
   const { userData } = useSelector((state) => state.user);
@@ -74,6 +75,29 @@ function Home() {
       desc: "Track progress with performance graphs and topic analysis.",
     },
   ];
+
+  const section3Data = [
+    {
+      img: HR,
+      title: "HR Interview Mode",
+      desc: "Behaviral and communication based evaluation."
+    },
+    {
+      img: tech,
+      title: "Technical Mode",
+      desc: "Deep Technical Questioning based on selected role."
+    },
+    {
+      img: config,
+      title: "Confidence Detection",
+      desc: "Basic Tone and Voice Analysis Insights."
+    },
+    {
+      img: credit,
+      title: "Creadit System",
+      desc: "Unlock premium interview sessions easily."
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-[#f3f3f3] flex flex-col">
@@ -230,30 +254,26 @@ function Home() {
             Multiple Interview<span className="text-green-600 ">Modes</span>
           </motion.h2>
           <div className="grid md:grid-cols-2 gap-10">
-            {ImageCardData.map((item, index) => (
+            {section3Data.map((mode, index) => (
               <motion.div
                 className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow:xl transition-all"
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }} 
+                whileHover={{ y: -6 }}
               >
-                <div className="flex flex-col md:flex-row itmes-center gap-8">
-                  <div className="w-full md:w-1/2 flex justify-center">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-auto object-contain max-h-64"
-                    />
-                  </div>
-                  <div className="w-full md:w-1/2">
-                    <div className="bg-green-50 text-green-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-                      {item.icon}
-                    </div>
-                    <h3 className="font-semibold mb-3 text-xl">{item.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-                  </div>
+                <div className="flex justify-center itmes-center gap-6">
+                <div className="w-1/2">
+                 <h3 className="font-semibold text-xl mb-3">{mode.title}</h3>
+
+                 <p className="text-gray-500 text-sm leading-relaxed">{mode.desc}</p>
+                </div>
+
+                <div className="w-1/2 flex justify-end">
+                 <img src={mode.img} alt={mode.title} className="w-28 h-28 object-contain" />
+
+                </div>
                 </div>
               </motion.div>
             ))}
@@ -261,6 +281,7 @@ function Home() {
         </div>
       </div>
       {showAuth && <AuthModel onClose={() => setshowAuth(false)} />}
+        <Footer/>
     </div>
     </div>
   );
