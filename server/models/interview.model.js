@@ -5,4 +5,4 @@ const interviewSchema = mongoose.Schema({
 })
 
 
-export const Interview = mongoose.model("Interview", interviewSchema);
+export const Interview = mongoose.model("Interview", interviewSchema);  

@@ -3,6 +3,6 @@ import { isAuth } from "../middlewares/isAuth.js";
 import { upload } from "../middlewares/multer.js";
 import { analyzeResume } from "../controller/interview.controller.js";
 
-const interviewRouter = express.Router();
+export const interviewRouter = express.Router();
 
-interviewRouter.post("/resume", isAuth, upload.single("resume"), analyzeResume);
+interviewRouter.post("/resume", upload.single("resume"), analyzeResume);
