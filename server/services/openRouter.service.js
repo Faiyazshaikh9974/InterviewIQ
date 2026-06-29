@@ -19,5 +19,12 @@ export const askAI = async (messages) => {
     );
 
     console.log(response);
-  } catch (error) {}
+
+    if(!response || !response.trim()){
+        throw new Error("AI returned Empty Response.")
+    }
+  } catch (error) {
+    console.log(error.response?.data|| error.messages);
+    throw new Error("OpenRouter API Error.")
+  }
 };
